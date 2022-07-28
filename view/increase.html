@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/layui.css">
+  <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+  <style>
+    #editor—wrapper {
+      border: 1px solid #ccc;
+      z-index: 100;
+      /* 按需定义 */
+    }
+
+    #toolbar-container {
+      border-bottom: 1px solid #ccc;
+    }
+
+    #editor-container {
+      height: 500px;
+    }
+  </style>
+</head>
+
+<body>
+  {{include "../view/top.html"}}
+  <form class="layui-form" action="/123" method="post" style="margin-top: 20px;">
+    <div class="layui-form-item">
+      <label class="layui-form-label">输入书名</label>
+      <div class="layui-input-block">
+        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off"
+          class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"> 占用大小</label>
+      <div class="layui-input-inline">
+        <input type="text" name="password" required lay-verify="required" placeholder="单位GB" autocomplete="off"
+          class="layui-input">
+      </div>
+      <div class="layui-form-mid layui-word-aux">辅助文字</div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">类型</label>
+      <div class="layui-input-block">
+        <select name="city" lay-verify="required">
+          <option value=""></option>
+          <option value="玄幻">玄幻</option>
+          <option value="仙侠">仙侠</option>
+          <option value="穿越">穿越</option>
+          <option value="言情">言情</option>
+          <option value="龙傲天">龙傲天</option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">复选框</label>
+      <div class="layui-input-block">
+        <input type="radio" name="sex" title="完结" value="完结">
+        <input type="radio" name="sex" title="在更" value="在更">
+        <input type="radio" name="sex" title="待更" value="待更" checked>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"> 保存 </label>
+      <div class="layui-input-block">
+        <input type="checkbox" name="switch" lay-skin="switch">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">单选框</label>
+      <div class="layui-input-block">
+        <input type="radio" name="sexs" value="男" title="男">
+        <input type="radio" name="sexs" value="女" title="女" checked>
+      </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+      <div id="editor—wrapper">
+        <div id="toolbar-container">
+          <!-- 工具栏 -->
+        </div>
+        <div id="editor-container">
+          <!-- 编辑器 -->
+        </div>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn" lay-submit lay-filter="formDemo">上架新书</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/js-cookie/3.0.1/js.cookie.js"></script>
+  <script src="/layui.js"></script>
+  <script>
+    //Demo
+    window.onload = function () {
+      if (Cookies.get('portrait')) {
+        demo1.src = Cookies.get('portrait')
+      }
+
+      if (Cookies.get('thename')) {
+        thename.innerText = Cookies.get('thename')
+      }
+    }
+    
+    let bookscontent = ""
+    layui.use('form', function () {
+      var form = layui.form;
+
+      //提交
+      form.on('submit(formDemo)', function (data) {
+        layer.msg(JSON.stringify(data.field));
+        console.log(data.field);
+        let f1 = new FormData()
+        for (key in data.field) {
+          f1.append(key, data.field[key])
+        }
+        f1.append("booksconten", bookscontent)
+
+        $.ajax({
+          type: "post",
+          url: "/insert",
+          header: {
+            "Content-type": "mulipart/form-data"
+          },
+          // FormData
+          //  不能规定请求头
+          //     //  不能处理数据  数据一定要是二进制
+          contentType: false,
+          processData: false,
+          data: f1
+
+
+        })
+        // fetch('http://127.0.0.1:3300/insert', {
+        //   method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        //   mode: 'cors', // no-cors, *cors, same-origin
+        //   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //   credentials: 'same-origin', // include, *same-origin, omit
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //     // 'Content-Type': 'application/x-www-form-urlencoded',
+        //   },
+        //   body: JSON.stringify(data.field)
+        // }).then(res => { res.json().then(res => { console.log(res); }) })
+        return false
+      });
+    });
+
+    const { createEditor, createToolbar } = window.wangEditor
+    console.log(window.wangEditor);
+    const editorConfig = {
+      placeholder: 'Type here...',
+
+      onChange(editor) {
+        const html = editor.getHtml()
+        bookscontent = html
+        console.log('editor content', html)
+        // 也可以同步到 <textarea>
+
+      },
+      MENU_CONF: {
+        uploadImage: {
+          server: '/api/upload',
+          fieldName: 'your-custom-name',
+          maxFileSize: 10 * 1024 * 1024,
+        }
+
+      }
+    }
+
+    const editor = createEditor({
+      selector: '#toolbar-container',
+      html: '<p><br></p>',
+
+      config: editorConfig,
+      mode: 'default', // or 'simple'
+    })
+
+    const toolbarConfig = {}
+    const toolbar = createToolbar({
+      editor,
+      selector: '#editor-container',
+      config: toolbarConfig,
+      mode: 'default', // or 'simple'
+    })
+  </script>
+</body>
+
+</html>

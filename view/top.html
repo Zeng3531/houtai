@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/layui.css">
+
+</head>
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+          <div class="layui-logo layui-hide-xs layui-bg-black">后台管理系统</div>
+          <!-- 头部区域（可配合layui 已有的水平导航） -->
+          <ul class="layui-nav layui-layout-left">
+            <!-- 移动端显示 -->
+            <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+              <i class="layui-icon layui-icon-spread-left"></i>
+            </li>
+    
+            <li class="layui-nav-item layui-hide-xs"><a href="">nav 1</a></li>
+    
+            <li class="layui-nav-item layui-hide-xs"><a href="">nav 2</a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="">nav 3</a></li>
+            <li class="layui-nav-item">
+              <a href="javascript:;">nav groups</a>
+              <dl class="layui-nav-child">
+                <dd><a href="">menu 11</a></dd>
+                <dd><a href="">menu 22</a></dd>
+                <dd><a href="">menu 33</a></dd>
+              </dl>
+            </li>
+    
+        <div id="thename" style="position:absolute;left:1062px;width: 70px;top:20px;">用户名</div>
+          </ul>
+          <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+              <div class="layui-upload-list">
+            
+                <img src=""  class="layui-upload-img" style="width:50px;margin-top: -21px;border-radius: 50%;height: 44px;" id="demo1">
+                <input type="button" class="layui-btn" id="test1" value="上传头像" style="margin-bottom: 20px;"/>
+                
+                <p id="demoText"></p>
+              </div>
+    
+            </li>
+          
+          </ul>
+        </div>
+    
+        <div class="layui-side layui-bg-black">
+          <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+              <li class="layui-nav-item layui-nav-itemed">
+                <a class="" href="javascript:;">选项框</a>
+                <dl class="layui-nav-child">
+                  <dd><a href="/index">主表单内容</a></dd>
+                  <dd><a href="/duohang">分页表单内容</a></dd>
+                  <dd><a href="/increase">上传新书</a></dd>
+                  <dd id="recycling"><a href="/recycling">回收站</a></dd>
+                </dl>
+              </li>
+              <li class="layui-nav-item">
+                <a href="javascript:;">menu group 2</a>
+                <dl class="layui-nav-child">
+                  <dd><a href="javascript:;">list 1</a></dd>
+                  <dd><a href="javascript:;">list 2</a></dd>
+                  <dd><a href="">超链接</a></dd>
+                </dl>
+              </li>
+              <li class="layui-nav-item"><a href="javascript:;">click menu item</a></li>
+              <li class="layui-nav-item"><a href="">the links</a></li>
+            </ul>
+          </div>
+        </div>
+    
+        <div class="layui-body">
+</body>
+<script>
+
+</script>
+</html>
